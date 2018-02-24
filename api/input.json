@@ -2,14 +2,17 @@
   "keyword": "housing",
   "response": "Do you own your home or rent?",
   "children": [{
-      "keyword": "own",
-      "response": "Are you getting foreclosed on?"
+    "keyword": "own",
+    "response": "Are you getting foreclosed on?"
+  }, {
+    "keyword": "rent",
+    "response": "Does the government pay a part or all of your rent? If yes, Subsidized housing. If no, private housing?",
+    "children": [{
+      "keyword": "yes",
+      "response": "subsidized housing"
     }, {
-      "keyword": "rent",
-      "response": "Are you getting evicted?"
-    }
-  ]
-}, {
-  "keyword": "sample",
-  "response": "this is a sample with no children"
+      "keyword": "no",
+      "response": "private housing"
+    }]
+  }]
 }]

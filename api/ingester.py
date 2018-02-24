@@ -35,6 +35,7 @@ def processDocs():
         if 'children' in d:
             del d['children']
         d['rkw'] = _id
+        d['keyword'] += ' ' + 'root'
         rtv.append(d)
     return rtv
 
