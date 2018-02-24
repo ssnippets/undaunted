@@ -12,10 +12,24 @@ index='undaunted'
 def query():
     data = request.get_json()
     query = data['query']
-    print (query)
+    keywords = json.loads(data['keywords'])
 
-    #res = es.search(index='undaunted', body={"_source": ["keyword"], "query": {"query_string": {"query": query}}})
-    res = es.search(index='undaunted', body={"query": {"query_string": {"fields" : ["keyword"],"query": query}}})
+    print (keywords)
+
+    if len(keywords) > 0:
+        for kw in keywords:
+            query += ' +' + kw # add required keywords
+    print query
+    res = es.search(index='undaunted', body={
+            "query": {
+                "query_string": {
+                    "fields": ["keyword"],
+                    "query": query
+                    }
+                }
+            })
+
+
     rtv = {}
     for hit in res['hits']['hits']:
         print hit
