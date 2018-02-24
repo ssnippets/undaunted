@@ -8,6 +8,11 @@ $(document).ready( function() {
   $("#send-button").click(function(){
     var userName = "You" + ":";
     var msg = $("#input-textbox").val();
+		
+		if (msg === '')
+		{ 
+			return;
+		}
          
     var lineColor = getListItemColor();
 
@@ -17,12 +22,16 @@ $(document).ready( function() {
     
     userName = "Bot" + ":";
     lineColor = getListItemColor();
-    var response = getResponse(msg, function(data) { 
-			chatLine = '<li class="' + lineColor + '"><div class="userName blue">' + userName +'</div><div class="msg">' + data.response + '</div></li>';
-			$("#chat-list").append(chatLine);		
+    getResponse(msg, function(data) { 
+			if (data.response)
+			{
+				chatLine = '<li class="' + lineColor + '"><div class="userName blue">' + userName +'</div><div class="msg">' + data.response + '</div></li>';	
+			} else {
+				chatLine = '<li class="' + lineColor + '"><div class="userName blue">' + userName +'</div><div class="msg">Please rephrase your question</div></li>';	
+			}
+			$("#chat-list").append(chatLine);	
+			scrollToBottom();
 		});
-		
-
   });
   
   $("#input-textbox").keydown(
@@ -65,4 +74,11 @@ function getResponse(msg, cb) {
 			cb("Cannot get data");
 		}		
 	});	
+}
+
+function scrollToBottom() {
+	"use strict";
+	var chatHeight = $("#chat-list").prop("scrollHeight");
+	//$("#chat-list").scrollTop() = $("#chat-list").scrollHeight;
+	$("#chat-list").scrollTop(chatHeight);
 }
