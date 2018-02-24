@@ -3,7 +3,7 @@ from pprint import pprint
 import uuid
 
 from elasticsearch import Elasticsearch, helpers
-es = Elasticsearch(["elastic_search:9200"])
+es = Elasticsearch(hosts=[{'host': 'elastic_search', 'port': 9200}])
 import config
 
 def parse_file():

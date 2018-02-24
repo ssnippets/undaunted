@@ -4,7 +4,7 @@ import json
 app = Flask('Access API')
 
 from elasticsearch import Elasticsearch
-es = Elasticsearch()
+es = Elasticsearch(hosts=[{'host': 'elastic_search', 'port': 9200}])
 
 import config
 from flask_cors import CORS
@@ -72,5 +72,5 @@ def contacts():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
 

@@ -14,3 +14,9 @@ services:
       - elastic_search:elastic_search
     ports:
       - 5000:5000
+  frontend:
+    build: ./src
+    links:
+      - api:api
+    ports: 
+      - 9999:80
