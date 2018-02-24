@@ -15,7 +15,6 @@ curl -XPUT "localhost:9200/${IDX}?pretty" -H 'Content-Type: application/json' -d
               "fields": {
                 "topic": { 
                   "type":     "text",
-                  "analyzer": "english"
             }
           }
         }
@@ -27,7 +26,7 @@ curl -XPUT "localhost:9200/${IDX}?pretty" -H 'Content-Type: application/json' -d
 curl -XPUT "localhost:9200/${IDX}/doc/1?pretty" -H 'Content-Type: application/json' -d'
 {
     "keyword" : "eviction",
-    "reponse" : "Why are you getting evicted?"
+    "response" : "Why are you getting evicted?"
 }
 '
 
