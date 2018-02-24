@@ -1,37 +1,37 @@
-var bgColor = "white";
-
 $(document).ready( function() {
   "use strict";
+	var gKeyword = "root";
 	
-	$("#input-textbox").focus();
+	getLocation();
+	
+	//$("#input-textbox").focus();
   
   $("#send-button").click(function(){
-    var userName = "You" + ":";
     var msg = $("#input-textbox").val();
+
 		
 		if (msg === '')
 		{ 
 			return;
 		}
          
-    var lineColor = getListItemColor();
-
-    var chatLine = '<li class="' + lineColor + '"><div class="userName red">' + userName +'</div><div class="msg">' + msg + '</div></li>'; 
+    var chatLine = '<li class="chat-list-item"><div class="frame-right"><div class="user-msg">' + msg + '</div><div class="user-msg-arrow"></div></div></li>'; 
     $("#input-textbox").val('');
     $("#chat-list").append(chatLine);
     
-    userName = "Bot" + ":";
-    lineColor = getListItemColor();
-    getResponse(msg, function(data) { 
+    getResponse(msg, gKeyword, function(data) { 
 			if (data.response)
 			{
-				chatLine = '<li class="' + lineColor + '"><div class="userName blue">' + userName +'</div><div class="msg">' + data.response + '</div></li>';	
+				chatLine = '<li class="chat-list-item"><div class="frame-left"><div class="msg-frame"><div class="bot-msg">' + data.response + '</div></div><div class="bot-msg-arrow"></div></div></li>';	
 			} else {
-				chatLine = '<li class="' + lineColor + '"><div class="userName blue">' + userName +'</div><div class="msg">Please rephrase your question</div></li>';	
+				chatLine = '<li class="chat-list-item"><div class="frame-left"><div class="bot-msg">No Answer.</div><div class="bot-msg-arrow"></div></div></li>';	
 			}
 			$("#chat-list").append(chatLine);	
+
+			gKeyword = data.keyword;
 			scrollToBottom();
 		});
+		
   });
   
   $("#input-textbox").keydown(
@@ -44,20 +44,7 @@ $(document).ready( function() {
 	);
 });
 
-function getListItemColor() {
-	"use strict";
-  var listItemColor;
-  if (bgColor === "white") {
-    listItemColor = "chat-list-item white";
-    bgColor = "gray";
-  } else {
-    listItemColor = "chat-list-item gray";
-    bgColor = "white";
-  } 
-  return listItemColor;
-}
-
-function getResponse(msg, cb) {
+function getResponse(msg, keyword, cb) {
 	"use strict";
 
 	$.ajax({
@@ -66,7 +53,7 @@ function getResponse(msg, cb) {
 		dataType: 'json',
 		contentType: 'application/json',
 		processData: false,
-		data: JSON.stringify( { query: msg, keywords: [] } ),
+		data: JSON.stringify( { query: msg, keywords: [ keyword ] } ),
 		success: function(data) {
 			cb(data);
 		}, 
@@ -79,6 +66,19 @@ function getResponse(msg, cb) {
 function scrollToBottom() {
 	"use strict";
 	var chatHeight = $("#chat-list").prop("scrollHeight");
-	//$("#chat-list").scrollTop() = $("#chat-list").scrollHeight;
 	$("#chat-list").scrollTop(chatHeight);
+}
+
+function getLocation() {
+	"use strict";
+	if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(showPosition);
+	} else {
+			$("#location").html("Geolocation is not supported by this browser.");
+	}
+}
+function showPosition(position) {
+	"use strict";
+	$("#location").html("Latitude: " + position.coords.latitude + 
+	"<br>Longitude: " + position.coords.longitude); 
 }
