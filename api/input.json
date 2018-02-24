@@ -1,14 +1,14 @@
 [{
-  "keyword": "eviction",
-  "response": "Why are you getting evicted?",
+  "keyword": "housing",
+  "response": "Do you own your home or rent?",
   "children": [{
-    "keyword": "money",
-    "response": "Money response",
-    "children": [{
-      "keyword": "subm",
-      "response": "Sub repsponse to money"
-    }]
-  }]
+      "keyword": "own",
+      "response": "Are you getting foreclosed on?"
+    }, {
+      "keyword": "rent",
+      "response": "Are you getting evicted?"
+    }
+  ]
 }, {
   "keyword": "sample",
   "response": "this is a sample with no children"

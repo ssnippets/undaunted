@@ -7,6 +7,8 @@ from elasticsearch import Elasticsearch
 es = Elasticsearch()
 
 import config
+from flask_cors import CORS
+CORS(app)
 
 @app.route('/query', methods=['POST'])
 def query():
