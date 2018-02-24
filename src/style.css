@@ -1,0 +1,108 @@
+@charset "utf-8";
+/* CSS Document */
+
+.bot-title {
+  text-align: center;
+  margin-top: 4px;
+  margin-bottom: 2px;
+}
+
+#chat-list {
+  text-align: center;
+  margin: 2px auto 20px;
+  width: 736px;
+  height: 450px;
+  border: black solid 2px;
+  list-style: none;
+  padding-left: 0px;
+  overflow:hidden;
+  overflow-y:scroll; 
+  font-family: "Courier New", Courier, monospace;
+-webkit-border-radius: 25px;
+  -moz-border-radius: 25px;  
+  border-radius: 15px;
+  -webkit-box-shadow: 2px 2px 1px #333, inset -0px -2px 4px black;
+  -moz-box-shadow: 2px 2px 1px #333, inset -0px -2px 4px black;  
+  box-shadow: 2px 2px 1px #333;
+}
+
+.chat-list-item {
+  text-align: left;
+  margin-left: 0px;
+  margin-bottom: 0px;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.input-container {
+  margin: 0px auto;
+  width: 740px;
+}
+
+#input-textbox {
+  font-size: 20px;
+  display: inline-block;
+  border: black solid 2px;
+  text-align: left;
+  width: 630px;
+  margin-left: 0px;
+  padding-left: 10px;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  height: 30px;
+}
+
+#send-button {
+  float: right;
+  background-color: green;
+  color: white;
+  display: inline-block;
+  font-size: 25px;
+  margin-top: -8px;
+  padding: 8px;
+  text-align: center;
+  border: black solid 2px;
+-webkit-border-radius: 25px;
+  -moz-border-radius: 25px;  
+  border-radius: 15px;
+  -webkit-box-shadow: 2px 2px 1px #333, inset -0px -2px 4px black;
+  -moz-box-shadow: 2px 2px 1px #333, inset -0px -2px 4px black;  
+  box-shadow: 2px 2px 1px #333, inset -0px -2px 4px black;
+  box-sizing: border-box;  
+}
+
+#send-button:active {
+  transform: translate(0px, 3px);
+  box-shadow: none;
+}
+
+#send-button:hover {
+  cursor: pointer;
+}
+
+.gray {
+  background-color: gainsboro;
+}
+
+.white {
+  background-color: white;
+}
+
+.blue {
+  color: blue;
+}
+
+.red {
+  color: red;
+}
+
+.userName {
+  display: inline;
+  text-align: left;
+  font-weight: bold;
+}
+
+.msg {
+  display: inline;
+  padding-left: 10px;
+}
