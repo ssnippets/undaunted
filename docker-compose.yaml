@@ -1,0 +1,16 @@
+version: "3"
+services:
+
+  elastic_search:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.0.1
+    ports:
+      - 9200:9200 
+      - 9300:9300 
+    environment:
+      - discovery.type=single-node
+  api:
+    build: ./api
+    links:
+      - elastic_search:elastic_search
+    ports:
+      - 5000:5000

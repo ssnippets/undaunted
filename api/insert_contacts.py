@@ -3,7 +3,7 @@ import os
 from apikey import key
 import json
 from elasticsearch import Elasticsearch, helpers
-es = Elasticsearch()
+es = Elasticsearch(["elastic_search:9200"])
 import config
 
 import time
