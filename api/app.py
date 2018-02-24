@@ -10,6 +10,7 @@ import config
 from flask_cors import CORS
 CORS(app)
 
+import insert_contacts as geo
 @app.route('/query', methods=['POST'])
 def query():
     data = request.get_json()
@@ -68,6 +69,17 @@ def contacts():
             "name": hit['_source']['name'],
             "addr": hit['_source']['addr']
             })
+    return json.dumps(rtv)
+
+@app.route('/contact_by_zip', methods=['POST'])
+def _zip():
+    data = request.get_json()
+    zipcode = data['zip']
+    g = geo.get_latlng(zipcode)
+    rtv = {}
+    if g:
+        rtv['lat'] = g.latlng[0]
+        rtv['lng'] = g.latlng[1]
     return json.dumps(rtv)
 
 

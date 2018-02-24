@@ -3,7 +3,8 @@ import os
 from apikey import key
 import json
 from elasticsearch import Elasticsearch, helpers
-es = Elasticsearch(hosts=[{'host': host, 'port': 443}])
+es = Elasticsearch(hosts=[{'host': 'elastic_search', 'port': 9200}])
+#es = Elasticsearch(hosts=[{'host': 'localhost', 'port': 9200}])
 import config
 
 import time
