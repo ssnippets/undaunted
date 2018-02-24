@@ -39,6 +39,37 @@ def query():
         rtv['keyword'] = hit["_source"]["rkw"]
     return json.dumps(rtv)
 
+@app.route('/contacts', methods=['POST'])
+def contacts():
+    data = request.get_json()
+    lat = data['lat']
+    lng = data['lng']
+    res = es.search(index=config.contacts_name, body={
+        "query": {
+            "bool" : {
+                "must" : {
+                    "match_all" : {}
+                },
+                "filter" : {
+                    "geo_distance" : {
+                        "distance" : "50km",
+                        "location" : {
+                            "lat" : lat,
+                            "lon" : lng
+                        }
+                    }
+                }
+            }
+        }
+    })
+    rtv = []
+    for hit in res['hits']['hits']:
+        rtv.append({
+            "name": hit['_source']['name'],
+            "addr": hit['_source']['addr']
+            })
+    return json.dumps(rtv)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

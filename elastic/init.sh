@@ -12,6 +12,18 @@ curl -XPUT "localhost:9200/${IDX}?pretty" -H 'Content-Type: application/json' -d
             }
           }
     }
+}
+curl -XPUT "localhost:9200/contacts" -H "Content-Type: application/json" -d'
+{
+  "mappings": {
+    "doc": {
+      "properties": {
+        "location": {
+          "type": "geo_point"
+        }
+      }
+    }
+  }
 }'
 curl -XPUT "localhost:9200/${IDX}/doc/1?pretty" -H 'Content-Type: application/json' -d'
 {
