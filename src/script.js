@@ -1,10 +1,12 @@
+var gURL = "http://a6bf8350.ngrok.io";
+
 $(document).ready( function() {
   "use strict";
 	var gKeyword = "root";
 	
 	getLocation();
 	
-	//$("#input-textbox").focus();
+	$("#input-textbox").focus();
   
   $("#send-button").click(function(){
     var msg = $("#input-textbox").val();
@@ -50,7 +52,7 @@ function getResponse(msg, keyword, cb) {
 	"use strict";
 
 	$.ajax({
-		url: "http://d5b5e702.ngrok.io/query",	
+		url: gURL + "/query",	
 		type: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',
@@ -79,8 +81,45 @@ function getLocation() {
 			$("#location").html("Geolocation is not supported by this browser.");
 	}
 }
+
 function showPosition(position) {
 	"use strict";
-	$("#location").html("Latitude: " + position.coords.latitude + 
-	"<br>Longitude: " + position.coords.longitude); 
+
+	var locationName = "";
+	var locationAddr = "";
+	getGeo(position.coords.latitude, position.coords.longitude, function(data) {
+		if (data[0].name)
+		{								
+			locationName = data[0].name;	
+		} else {
+			locationName = 'Unknown Location';	
+		}
+		if (data[0].addr) 
+		{								
+			locationAddr = data[0].addr;	
+		} else {
+			locationAddr = 'Unknown Location';	
+		}		
+		$("#location").html(locationName + "<br>" + locationAddr);	
+	});
+
+}
+
+function getGeo(lat, long, cb) {
+	"use strict";
+
+	$.ajax({
+		url: gURL + "/contacts",	
+		type: 'POST',
+		dataType: 'json',
+		contentType: 'application/json',
+		processData: false,
+		data: JSON.stringify( { lat: lat, lng: long } ),
+		success: function(data) {
+			cb(data);
+		}, 
+		error: function() {
+			cb("Cannot get location");
+		}		
+	});	
 }
