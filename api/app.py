@@ -6,13 +6,13 @@ app = Flask('Access API')
 from elasticsearch import Elasticsearch
 es = Elasticsearch()
 
-index='undaunted'
+import config
 
 @app.route('/query', methods=['POST'])
 def query():
     data = request.get_json()
     query = data['query']
-    keywords = json.loads(data['keywords'])
+    keywords = data['keywords']
 
     print (keywords)
 
@@ -20,7 +20,7 @@ def query():
         for kw in keywords:
             query += ' +' + kw # add required keywords
     print query
-    res = es.search(index='undaunted', body={
+    res = es.search(index=config.index_name, body={
             "query": {
                 "query_string": {
                     "fields": ["keyword"],
@@ -28,7 +28,6 @@ def query():
                     }
                 }
             })
-
 
     rtv = {}
     for hit in res['hits']['hits']:

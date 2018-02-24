@@ -2,8 +2,9 @@ import json
 from pprint import pprint
 import uuid
 
-#from elasticsearch import Elasticsearch
-#es = Elasticsearch()
+from elasticsearch import Elasticsearch, helpers
+es = Elasticsearch()
+import config
 
 def parse_file():
     rtv = ""
@@ -23,7 +24,7 @@ def flattenChildren(parentKey, children):
         rtv.append(child)
     return rtv
 
-if __name__ == '__main__':
+def processDocs():
     data = parse_file()
     rtv = []
     for d in data:
@@ -33,5 +34,15 @@ if __name__ == '__main__':
             del d['children']
         d['keyword'] += ' ' + _id
         rtv.append(d)
-    pprint(rtv)
+    return rtv
 
+if __name__ == '__main__':
+    data = processDocs()
+    pprint(data)
+    es.delete_by_query(index=config.index_name, body={
+        "query": {
+            "match_all": {}
+            }
+        })
+    res = helpers.bulk(es, data, index=config.index_name, doc_type='doc')
+    pprint(res)
