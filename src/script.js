@@ -14,17 +14,19 @@ $(document).ready( function() {
 		{ 
 			return;
 		}
-         
-    var chatLine = '<li class="chat-list-item"><div class="frame-right"><div class="user-msg">' + msg + '</div><div class="user-msg-arrow"></div></div></li>'; 
+    
+		
+		
+    var chatLine = '<div class="frame"><div class="full"><div class="ans-text">' + msg + '</div></div><div class="ans-arrow"></div></div>'; 
     $("#input-textbox").val('');
     $("#chat-list").append(chatLine);
     
     getResponse(msg, gKeyword, function(data) { 
 			if (data.response)
-			{
-				chatLine = '<li class="chat-list-item"><div class="frame-left"><div class="msg-frame"><div class="bot-msg">' + data.response + '</div></div><div class="bot-msg-arrow"></div></div></li>';	
+			{								
+				chatLine = '<div class="frame"><div class="full"><div class="question-text">' + data.response + '</div></div><div class="question-arrow"></div></div>';	
 			} else {
-				chatLine = '<li class="chat-list-item"><div class="frame-left"><div class="bot-msg">No Answer.</div><div class="bot-msg-arrow"></div></div></li>';	
+				chatLine = '<div class="frame"><div class="full"><div class="question-text">No Answer.</div></div><div class="question-arrow"></div></div>';	
 			}
 			$("#chat-list").append(chatLine);	
 
