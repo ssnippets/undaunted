@@ -16,8 +16,10 @@ def parse_file():
 def flattenChildren(parentKey, children):
     rtv = []
     for child in children:
-        child_key = parentKey + ' ' + child['keyword']
-        child['keyword'] = child_key
+        _id = unicode(uuid.uuid4())
+        child_key = parentKey + ' ' + _id
+        child['rkw'] = child_key
+        child['keyword'] += ' ' + parentKey
         rtv += flattenChildren(child_key, child.get('children', []))
         if 'children' in child:
             del child['children']
@@ -32,17 +34,17 @@ def processDocs():
         rtv += flattenChildren(_id, d.get('children', []))
         if 'children' in d:
             del d['children']
-        d['keyword'] += ' ' + _id
+        d['rkw'] = _id
         rtv.append(d)
     return rtv
 
 if __name__ == '__main__':
     data = processDocs()
-    pprint(data)
+    print json.dumps(data)
     es.delete_by_query(index=config.index_name, body={
         "query": {
             "match_all": {}
             }
         })
     res = helpers.bulk(es, data, index=config.index_name, doc_type='doc')
-    pprint(res)
+#    pprint(res)

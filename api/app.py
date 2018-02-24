@@ -34,7 +34,7 @@ def query():
         print hit
         #rtv += "%s" % hit["_source"]["response"]
         rtv['response'] = hit["_source"]["response"]
-        rtv['keyword'] = hit["_source"]["keyword"]
+        rtv['keyword'] = hit["_source"]["rkw"]
     return json.dumps(rtv)
 
 

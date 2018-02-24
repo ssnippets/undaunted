@@ -4,7 +4,10 @@
   "children": [{
     "keyword": "money",
     "response": "Money response",
-    "children": []
+    "children": [{
+      "keyword": "subm",
+      "response": "Sub repsponse to money"
+    }]
   }]
 }, {
   "keyword": "sample",
