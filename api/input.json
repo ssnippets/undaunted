@@ -1,0 +1,12 @@
+[{
+  "keyword": "eviction",
+  "response": "Why are you getting evicted?",
+  "children": [{
+    "keyword": "money",
+    "response": "Money response",
+    "children": []
+  }]
+}, {
+  "keyword": "sample",
+  "response": "this is a sample with no children"
+}]
