@@ -5,6 +5,7 @@ app = Flask('Access API')
 
 from elasticsearch import Elasticsearch
 es = Elasticsearch(hosts=[{'host': 'elastic_search', 'port': 9200}])
+#es = Elasticsearch()
 
 import config
 from flask_cors import CORS
@@ -14,30 +15,47 @@ import insert_contacts as geo
 @app.route('/query', methods=['POST'])
 def query():
     data = request.get_json()
-    query = data['query']
-    keywords = data['keywords']
+    query = '"' + data['query'] + '"^15'
+    keywords = data['keywords'][0]
 
     print (keywords)
 
-    if len(keywords) > 0:
-        for kw in keywords:
-            query += ' +' + kw # add required keywords
+    
+
+    if keywords and len(keywords.split(' ')) > 0:
+        for kw in keywords.split(' '):
+            if kw:
+                query += ' +' + kw + '' # add required keywords
     print query
     res = es.search(index=config.index_name, body={
-            "query": {
-                "query_string": {
-                    "fields": ["keyword"],
-                    "query": query
-                    }
+        "sort" : ["_score"],
+        "from" : 0, "size" : 9999,
+        "query": {
+            "query_string": {
+                "fields": ["keyword"],
+                "query": query
                 }
-            })
+            }
+        })
 
     rtv = {}
+#    get shortest match
+    shortest = 99999
     for hit in res['hits']['hits']:
         print hit
         #rtv += "%s" % hit["_source"]["response"]
-        rtv['response'] = hit["_source"]["response"]
-        rtv['keyword'] = hit["_source"]["rkw"]
+        kws = hit['_source']['keyword'].split(' ')
+        #for kw in kws: #iterate through keys:
+        #    if kw not in keywords[0].split(' '):
+        #        continue
+        if len(kws) < shortest:
+            rtv['response'] = hit["_source"]["response"]
+            rtv['keyword'] = hit["_source"]["rkw"]
+            shortest = len(kws)
+#        if len(hit['_source']['keyword'].split(' ')[1:]) <= len(keywords[0].split(' ')): #search term 
+        
+#        if len(hit['_source']['keyword'].split(' ')[1:]) == len(keywords[0].split(' ')): #search term 
+ #           break #only get the highest hit
     return json.dumps(rtv)
 
 @app.route('/contacts', methods=['POST'])
@@ -50,19 +68,19 @@ def contacts():
             "bool" : {
                 "must" : {
                     "match_all" : {}
-                },
+                    },
                 "filter" : {
                     "geo_distance" : {
                         "distance" : "50km",
                         "location" : {
                             "lat" : lat,
                             "lon" : lng
+                            }
                         }
                     }
                 }
             }
-        }
-    })
+        })
     rtv = []
     for hit in res['hits']['hits']:
         rtv.append({

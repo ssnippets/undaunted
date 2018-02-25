@@ -48,7 +48,7 @@ function getResponse(msg, keyword, cb) {
 	"use strict";
 
 	$.ajax({
-		url: "http://d5b5e702.ngrok.io/query",	
+		url: "/api/query",	
 		type: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',
