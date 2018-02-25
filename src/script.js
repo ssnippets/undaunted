@@ -4,7 +4,7 @@ $(document).ready( function() {
   "use strict";
 	var gKeyword = "root";
 	
-	getLocation();
+	//getLocation();
 	
 	$("#input-textbox").focus();
   
@@ -48,7 +48,7 @@ $(document).ready( function() {
 	);
 });
 
-function getResponse(msg, keyword, cb) {
+/*function getResponse(msg, keyword, cb) {
 	"use strict";
 
 	$.ajax({
@@ -65,6 +65,19 @@ function getResponse(msg, keyword, cb) {
 			cb("Cannot get data");
 		}		
 	});	
+}*/
+function getResponse(msg, keyword, cb){
+
+  console.log(script);
+  for (var i = 0; i < script.length; i++){
+    var curr = script[i];
+    if (curr.keyword.search(msg) > -1){
+      console.log('found');
+      cb(curr);
+      script = curr.children
+      break;
+    }
+  }
 }
 
 function scrollToBottom() {
@@ -73,7 +86,7 @@ function scrollToBottom() {
 	$("#chat-list").scrollTop(chatHeight);
 	/*$(document).scrollTop($(document).height());*/
 }
-
+/*
 function getLocation() {
 	"use strict";
 	if (navigator.geolocation) {
@@ -123,4 +136,4 @@ function getGeo(lat, long, cb) {
 			cb("Cannot get location");
 		}		
 	});	
-}
+}*/
