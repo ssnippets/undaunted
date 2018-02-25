@@ -19,14 +19,21 @@
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
 }
 
-.chat-list-item {
+.frame {
   text-align: left;
-  margin-left: 0px;
-  margin-bottom: 0px;
+	float: left;
+	width: 100%;
+	margin: 5px 0;
+	
   padding-top: 10px;
   display: block;
-  width: 100%;
-  clear: both;
+  /*clear: both;*/
+}
+
+.full {
+	float: left;
+	width: 100%;
+	display: block;
 }
 
 .input-container {
@@ -42,7 +49,7 @@
   width: 650px;
   margin-left: 0px;
   padding-left: 10px;
-  font-family: "Courier New", Courier, monospace;
+  font-family: "Verdana", Geneva, sans-serif;
   font-weight: bold;
   height: 50px;
 	-webkit-border-radius: 15px;
@@ -80,33 +87,54 @@
   cursor: pointer;
 }
 
-.frame-left {
-  float: left;
+.question-text {
+	float: left;
+	font-family: "Verdana", Geneva, sans-serif;
+	font-size: 14px;
+	line-height: 20px;
+	color: white;
+	min-width: 30px;
+	background-color: #5489eb;
+	border-radius: 15px;
+	padding: 10px 15px 14px 15px;
+	margin-right: 45px;
+	display: block;	
 }
 
-.frame-right {
+.ans-text {
   float: right;
+	font-family: "Verdana", Geneva, sans-serif;
+	font-size: 14px;
+	line-height: 20px;
+	color: black;
+	min-width: 30px;
+	background-color: gainsboro;
+	border-radius: 15px;
+	padding: 10px 15px 14px 15px;
+	margin-left: 45px;
+	display: block;
 }
 
-.bot-msg {
-  margin-bottom: 20px;
-  display: inline;
-  padding: 10px 20px;
-  font-size: 20px;
- 
-  
-  color: white;
-  margin-right: 15px;
-	line-height: normal; /*44px;*/
-}
-
-.bot-msg-arrow {
+.question-arrow {
+	float: left;
   width: 0;
   height: 0;
   border-left: 5px solid transparent;
   border-right: 10px solid transparent;
   border-top: 15px solid #5489eb;
   margin: 0px 20px;
+	display: block;
+}
+
+.ans-arrow {
+	float: right;
+	width: 0;
+	height: 0;
+	border-left: 10px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 15px solid gainsboro;
+	margin: 0px 20px;
+	display: block;
 }
 
 .user-msg {
@@ -128,14 +156,6 @@
   border-right: 5px solid transparent;
   border-top: 15px solid gainsboro;
   margin: 10px 20px;
-}
-
-.msg-frame {
-	background-color: #5489eb;
-	-webkit-border-radius: 15px;
-  -moz-border-radius: 15px;  
-  border-radius: 15px; 
-	margin-right: 15px;
 }
 
 #location {

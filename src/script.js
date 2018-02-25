@@ -1,10 +1,12 @@
+var gURL = "http://a6bf8350.ngrok.io";
+
 $(document).ready( function() {
   "use strict";
 	var gKeyword = "root";
 	
 	getLocation();
 	
-	//$("#input-textbox").focus();
+	$("#input-textbox").focus();
   
   $("#send-button").click(function(){
     var msg = $("#input-textbox").val();
@@ -14,17 +16,19 @@ $(document).ready( function() {
 		{ 
 			return;
 		}
-         
-    var chatLine = '<li class="chat-list-item"><div class="frame-right"><div class="user-msg">' + msg + '</div><div class="user-msg-arrow"></div></div></li>'; 
+    
+		
+		
+    var chatLine = '<div class="frame"><div class="full"><div class="ans-text">' + msg + '</div></div><div class="ans-arrow"></div></div>'; 
     $("#input-textbox").val('');
     $("#chat-list").append(chatLine);
     
     getResponse(msg, gKeyword, function(data) { 
 			if (data.response)
-			{
-				chatLine = '<li class="chat-list-item"><div class="frame-left"><div class="msg-frame"><div class="bot-msg">' + data.response + '</div></div><div class="bot-msg-arrow"></div></div></li>';	
+			{								
+				chatLine = '<div class="frame"><div class="full"><div class="question-text">' + data.response + '</div></div><div class="question-arrow"></div></div>';	
 			} else {
-				chatLine = '<li class="chat-list-item"><div class="frame-left"><div class="bot-msg">No Answer.</div><div class="bot-msg-arrow"></div></div></li>';	
+				chatLine = '<div class="frame"><div class="full"><div class="question-text">No Answer.</div></div><div class="question-arrow"></div></div>';	
 			}
 			$("#chat-list").append(chatLine);	
 
@@ -48,7 +52,7 @@ function getResponse(msg, keyword, cb) {
 	"use strict";
 
 	$.ajax({
-		url: "/api/query",	
+		url: gURL + "/query",	
 		type: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',
@@ -77,8 +81,45 @@ function getLocation() {
 			$("#location").html("Geolocation is not supported by this browser.");
 	}
 }
+
 function showPosition(position) {
 	"use strict";
-	$("#location").html("Latitude: " + position.coords.latitude + 
-	"<br>Longitude: " + position.coords.longitude); 
+
+	var locationName = "";
+	var locationAddr = "";
+	getGeo(position.coords.latitude, position.coords.longitude, function(data) {
+		if (data[0].name)
+		{								
+			locationName = data[0].name;	
+		} else {
+			locationName = 'Unknown Location';	
+		}
+		if (data[0].addr) 
+		{								
+			locationAddr = data[0].addr;	
+		} else {
+			locationAddr = 'Unknown Location';	
+		}		
+		$("#location").html(locationName + "<br>" + locationAddr);	
+	});
+
+}
+
+function getGeo(lat, long, cb) {
+	"use strict";
+
+	$.ajax({
+		url: gURL + "/contacts",	
+		type: 'POST',
+		dataType: 'json',
+		contentType: 'application/json',
+		processData: false,
+		data: JSON.stringify( { lat: lat, lng: long } ),
+		success: function(data) {
+			cb(data);
+		}, 
+		error: function() {
+			cb("Cannot get location");
+		}		
+	});	
 }
