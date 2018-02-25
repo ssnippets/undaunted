@@ -71,6 +71,7 @@ function scrollToBottom() {
 	"use strict";
 	var chatHeight = $("#chat-list").prop("scrollHeight");
 	$("#chat-list").scrollTop(chatHeight);
+	/*$(document).scrollTop($(document).height());*/
 }
 
 function getLocation() {
